@@ -1,0 +1,43 @@
+.shop-page {
+    --page-bg: rgb(101, 101, 101);
+    --card-bg: rgb(55, 86, 88);
+}
+
+
+.product-card-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 25px;
+    padding: 50px;
+    /* justify-content: space-evenly; */
+}
+
+.product-card {
+    border: 1px solid gray;
+    box-shadow: 2px 2px 4px gray;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background: var(--card-bg);
+}
+
+.product-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding:1rem;
+}
+
+.product-card-thumbnail {
+    height: 200px;
+    width: 250px;
+    object-fit: contain;
+    padding: 20px;
+}
+
+.add-to-cart-button {
+    cursor: pointer;
+    padding: .5rem;
+    margin: .5rem;
+    background: var(--card-bg);
+}
