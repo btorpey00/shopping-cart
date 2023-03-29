@@ -11,45 +11,33 @@ import ShoppingCart from './components/ShoppingCart';
 function App() {
 
   const [cartOpen, setCartOpen] = useState(false);
-  const [allProducts, setAllProducts] = useState([]);
   const [productsLoaded, setProductsLoaded] = useState(false);
-  const [cartItems, setCartItems] = useState([]);
+  const [allProducts, setAllProducts] = useState([]);
+  const [cartItems, setCartItems] = useState(() => {
+    const cartData = JSON.parse(localStorage.getItem('cartItems'));
+    return cartData || [];
+  });
+
+  useEffect(() => {
+    localStorage.setItem('cartItems', JSON.stringify(cartItems));
+  },[cartItems]);
 
   function toggleCartOpen() {
     setCartOpen(!cartOpen);
   };
 
   function addToCart(index) {
-    if (allProducts[index].quantity === 0) {
-      allProducts[index].quantity = 1;
-      setCartItems(cartItems.concat(allProducts[index]));
-    }
+    let addedProduct = allProducts[index];
+
+      setCartItems(cartItems.concat({...addedProduct, quantity: 1}));
   }
 
   function removeFromCart(id) {
-    let newProductArray = allProducts.map(product => {
-      if(product.id === id) {
-        return {...product, quantity: 0}
-      } else {
-        return product
-      }
-    })
     let newCartArray = cartItems.filter(product => product.id !== id)
     setCartItems(newCartArray)
-    setAllProducts(newProductArray)
-
   }
 
   function incrementQuantity(id) {
-    console.log(id)
-    let updatedProductArray = allProducts.map(product => {
-      if(product.id === id) {
-        let newQuantity = product.quantity + 1
-        return {...product, quantity: newQuantity}
-      } else{
-        return product
-      }
-    })
     let updatedCartArray = cartItems.map(product => {
       if(product.id === id) {
         let newQuantity = product.quantity + 1
@@ -58,19 +46,10 @@ function App() {
         return product
       }
     })
-    setAllProducts(updatedProductArray);
     setCartItems(updatedCartArray);
   }
 
   function decrementQuantity(id) {
-    let updatedProductArray = allProducts.map(product => {
-      if(product.id === id) {
-        let newQuantity = product.quantity - 1
-        return {...product, quantity: newQuantity}
-      } else{
-        return product
-      }
-    })
     let updatedCartArray = cartItems.map(product => {
       if(product.id === id) {
         let newQuantity = product.quantity - 1
@@ -79,7 +58,6 @@ function App() {
         return product
       }
     })
-    setAllProducts(updatedProductArray);
     setCartItems(updatedCartArray)
   }
 
@@ -88,7 +66,7 @@ function App() {
       try {
         const response = await fetch('https://dummyjson.com/products');
         const data = await response.json();
-        const productData = data.products.slice(0,10).map(item => ({...item, quantity: 0}))
+        const productData = data.products.slice(0,10)
         setAllProducts(productData);
         setProductsLoaded(true)
       } catch(error) {
@@ -98,7 +76,6 @@ function App() {
     getProducts();
   },[])
  
-  
   return (
     <BrowserRouter>
       <NavBar toggleCartOpen={toggleCartOpen} cartItems={cartItems} />
@@ -113,7 +90,7 @@ function App() {
       <div className="App">
         <Routes>
           <Route path='/shopping-cart' element={<Home />} />
-          <Route path='/shopping-cart/shop' element={<Shop addToCart={addToCart} allProducts={allProducts} productsLoaded={productsLoaded}/>} />
+          <Route path='/shopping-cart/shop' element={<Shop addToCart={addToCart} allProducts={allProducts} productsLoaded={productsLoaded} cartItems={cartItems}/>} />
           <Route path='/shopping-cart/about' element={<About />} />
         </Routes>
       </div>

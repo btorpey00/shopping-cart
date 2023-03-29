@@ -5,7 +5,7 @@ import './Shop.css';
 
 export default function Shop(props) {
     
-    const {allProducts, productsLoaded, addToCart } = props
+    const {allProducts, productsLoaded, addToCart, cartItems } = props
 
     function handleAddClick(product) {
         let indexOfProduct = allProducts.indexOf(product)
@@ -15,7 +15,7 @@ export default function Shop(props) {
     function ProductCardContainer() {
         if(productsLoaded === true) {
             let productArray = allProducts
-            let productCards = productArray.map(product => <ProductCard key={product.id} product={product} handleAddClick={handleAddClick}/>)
+            let productCards = productArray.map(product => <ProductCard key={product.id} product={product} handleAddClick={handleAddClick} cartItems={cartItems}/>)
             return (
                 <div className="product-card-container">{productCards}</div>
             )
