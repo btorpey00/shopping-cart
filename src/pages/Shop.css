@@ -44,4 +44,5 @@
 
 .add-to-cart-button:disabled {
     color: rgb(28, 28, 28);
+    cursor: default;
 }
