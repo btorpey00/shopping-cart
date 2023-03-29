@@ -4,7 +4,7 @@ import './ShoppingCart.css'
 
 function ShoppingCart(props) {
 
-    const {cartOpen, toggleCartOpen, cartItems, removeFromCart} = props
+    const {cartOpen, toggleCartOpen, cartItems, removeFromCart, incrementQuantity, decrementQuantity} = props
     const [cartTotal, setCartTotal] = useState(0);
 
     let cartClass = 'shopping-cart';
@@ -14,6 +14,18 @@ function ShoppingCart(props) {
 
     function handleRemove(product) {
         removeFromCart(product.id)
+    }
+
+    function handleIncrement(product) {
+        incrementQuantity(product.id)
+    }
+
+    function handleDecrement(product) {
+        decrementQuantity(product.id)
+    }
+
+    function handleCheckout() {
+        alert('Sorry, this is just a fake store!')
     }
 
     useEffect(() => {
@@ -28,11 +40,15 @@ function ShoppingCart(props) {
         updateTotal()
 
     },[cartItems])
-
     
     
     function ShoppingCartContainer() {
-        let cartArray = cartItems.map(item => <CartItem key={item.id} product={item} handleRemove={handleRemove}/>)
+        let cartArray = cartItems.map(item => <CartItem key={item.id}
+             product={item} 
+             handleRemove={handleRemove}
+             handleIncrement={handleIncrement}
+             handleDecrement={handleDecrement}
+             />)
         return (
             <div className='cart-container'>{cartArray}</div>
         )
@@ -42,9 +58,10 @@ function ShoppingCart(props) {
     return(
         <div className={cartClass}>
             <div className='cart-close-button' onClick={toggleCartOpen}>X</div>
-            Cart
+            <div className="cart-title">Shopping Cart</div>
             <ShoppingCartContainer />
             <div className='cart-total'>Total: ${cartTotal}</div>
+            <button className="checkout-button" onClick={handleCheckout}>Checkout</button>
         </div>
     )
 }

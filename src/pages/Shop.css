@@ -41,3 +41,7 @@
     margin: .5rem;
     background: var(--card-bg);
 }
+
+.add-to-cart-button:disabled {
+    color: rgb(28, 28, 28);
+}

@@ -17,7 +17,6 @@ function App() {
 
   function toggleCartOpen() {
     setCartOpen(!cartOpen);
-    console.log(cartItems)
   };
 
   function addToCart(index) {
@@ -38,7 +37,50 @@ function App() {
     let newCartArray = cartItems.filter(product => product.id !== id)
     setCartItems(newCartArray)
     setAllProducts(newProductArray)
-    console.log(newProductArray)
+
+  }
+
+  function incrementQuantity(id) {
+    console.log(id)
+    let updatedProductArray = allProducts.map(product => {
+      if(product.id === id) {
+        let newQuantity = product.quantity + 1
+        return {...product, quantity: newQuantity}
+      } else{
+        return product
+      }
+    })
+    let updatedCartArray = cartItems.map(product => {
+      if(product.id === id) {
+        let newQuantity = product.quantity + 1
+        return {...product, quantity: newQuantity}
+      } else{
+        return product
+      }
+    })
+    setAllProducts(updatedProductArray);
+    setCartItems(updatedCartArray);
+  }
+
+  function decrementQuantity(id) {
+    let updatedProductArray = allProducts.map(product => {
+      if(product.id === id) {
+        let newQuantity = product.quantity - 1
+        return {...product, quantity: newQuantity}
+      } else{
+        return product
+      }
+    })
+    let updatedCartArray = cartItems.map(product => {
+      if(product.id === id) {
+        let newQuantity = product.quantity - 1
+        return {...product, quantity: newQuantity}
+      } else{
+        return product
+      }
+    })
+    setAllProducts(updatedProductArray);
+    setCartItems(updatedCartArray)
   }
 
   useEffect(() => {
@@ -60,7 +102,14 @@ function App() {
   return (
     <BrowserRouter>
       <NavBar toggleCartOpen={toggleCartOpen} cartItems={cartItems} />
-      <ShoppingCart cartOpen={cartOpen} toggleCartOpen={toggleCartOpen} cartItems={cartItems} removeFromCart={removeFromCart} allProducts={allProducts}/>
+      <ShoppingCart 
+        cartOpen={cartOpen} 
+        toggleCartOpen={toggleCartOpen} 
+        cartItems={cartItems} 
+        removeFromCart={removeFromCart} 
+        allProducts={allProducts} 
+        incrementQuantity={incrementQuantity}
+        decrementQuantity={decrementQuantity}/>
       <div className="App">
         <Routes>
           <Route path='/shopping-cart' element={<Home />} />

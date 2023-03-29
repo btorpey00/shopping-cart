@@ -22,8 +22,6 @@ function ProductCard(props) {
         }
     }
     
-    
-
     return (
         <div className='product-card'>
             <img className='product-card-thumbnail' src={product.images[0]} alt={product.title} />
@@ -31,7 +29,6 @@ function ProductCard(props) {
                 <div className='product-card-title' >{product.title}</div>
                 <div className='product-card-price' >${product.price}</div>
             </div>
-            {/* <button className='add-to-cart-button' onClick={handleClick}>{itemInCart ? 'Item in Cart' : 'Add to Cart'}</button> */}
             <AddButton />
         </div>
     )
